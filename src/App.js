@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-import {shuffle} from 'lodash';
+import {shuffle, range} from 'lodash';
 import ReactCardFlip from 'react-card-flip';
 import Card from './Card';
 
@@ -138,21 +138,38 @@ class App extends React.Component {
       return <h1>Congrats!!!</h1>
     }
 
+    if (!this.state.cards.length) {
+      return null;
+    }
+
     return (
       <div className="App">
         {this._renderTitle()}
-        <div className={'row'}>
+        <div className={'container'}>
           {
-            this.state.cards.map((item, index) =>
-              <ReactCardFlip key={index} isFlipped={this._isOpened(item)} flipDirection="horizontal">
-                <Card key={index} onClick={this.openCard.bind(this, index)} index={index}>
-                  closed!
-                </Card>
-                <Card key={index} onClick={this.openCard.bind(this, index)} index={index}>
-                  {item.value}
-                </Card>
-              </ReactCardFlip>
-            )
+            range(diffMap[this.state.difficulty].rows).map((i) => (
+              <div className='row'>
+                {
+                  range(diffMap[this.state.difficulty].columns).map((j) => {
+                    const index = diffMap[this.state.difficulty].columns * i + j;
+                    const item = this.state.cards[index];
+
+                    return (
+                      <div className='grid-item'>
+                        <ReactCardFlip key={index} isFlipped={this._isOpened(item)} flipDirection="horizontal">
+                          <Card key={index} onClick={this.openCard.bind(this, index)}>
+                            closed!
+                          </Card>
+                          <Card key={index} onClick={this.openCard.bind(this, index)}>
+                            {item.value}
+                          </Card>
+                        </ReactCardFlip>
+                      </div>
+                    );
+                  })
+                }
+              </div>
+            ))
           }
         </div>
       </div>
