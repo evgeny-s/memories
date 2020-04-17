@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-import _ from 'lodash';
+import {shuffle} from 'lodash';
+import ReactCardFlip from 'react-card-flip';
 import Card from './Card';
 
 const DIFFICULTY_EASY = 'DIFFICULTY_EASY';
@@ -55,7 +56,7 @@ class App extends React.Component {
       }
     }
 
-    const shuffled = _.shuffle(fullItems);
+    const shuffled = shuffle(fullItems);
     const cards = [];
 
     shuffled.forEach((item) => {
@@ -143,9 +144,14 @@ class App extends React.Component {
         <div className={'row'}>
           {
             this.state.cards.map((item, index) =>
-              <Card key={index} onClick={this.openCard.bind(this, index)} index={index}>
-                {this._isOpened(item) ? item.value : 'closed!'}
-              </Card>
+              <ReactCardFlip key={index} isFlipped={this._isOpened(item)} flipDirection="horizontal">
+                <Card key={index} onClick={this.openCard.bind(this, index)} index={index}>
+                  closed!
+                </Card>
+                <Card key={index} onClick={this.openCard.bind(this, index)} index={index}>
+                  {item.value}
+                </Card>
+              </ReactCardFlip>
             )
           }
         </div>
