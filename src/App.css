@@ -2,6 +2,22 @@
   text-align: center;
 }
 
+.App .rect-item {
+  border: 1px solid black;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+}
+
+.App .card {
+  width: 200px;
+  height: 200px;
+}
+
+.card-container {
+  display: inline-block;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
